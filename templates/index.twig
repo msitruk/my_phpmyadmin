@@ -8,8 +8,14 @@
   </style>
 {% endblock %}
 {% block content %}
-    <h1>Index</h1>
-    <p class="important">
-      Vous venez de créer votre premier template avec {{ moteur_name }} !
-    </p>
+    <h1>Les bases de données dans MySQL</h1>
+    <table>
+      <thead><td>Nom de la base</td></thead>
+    {% for base in bases %}
+    <tr><td>{{ base }}</td></tr>
+    {% endfor %}
+  </table>
+    <!-- <p class="important">
+      Vous venez de créer votre premier template avec {# moteur_name #} !
+    </p> -->
 {% endblock %}
