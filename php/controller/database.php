@@ -38,13 +38,29 @@ function delete_database($name_database, $connection){
 	}
 }
 
-//cree une base de donnée
+function rename_database($connection, $new_name, $old_name)
+{
+	$sql = "CREATE DATABASE IF NOT EXISTS $new_name default CHARACTER set utf8 COLLATE utf8_general_ci; DROP DATABASE $old_name";
+	try
+	{
+		$req = $connection->query($sql);
+		echo "Database rename successfully";
+	}
+	catch (PDOException $e)
+	{
+		echo "rename database failed";
+	}
+}
+
+//create database
 
 $name_database = "test2"; // nom de la base testé
 insert_database($name_database, $connection);
 
-//delete une base de donnée
+//delete database
 delete_database($name_database,  $connection);
 
+//edit database
+rename_database($connection, "sucess", "test2");
 
 ?>
