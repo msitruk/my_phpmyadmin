@@ -1,5 +1,4 @@
 <?php
-require("connection.php");
 function show_database($connection)
 {
 	$sql = 'SHOW DATABASES';
