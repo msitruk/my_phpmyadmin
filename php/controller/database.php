@@ -11,8 +11,22 @@ function show_database($connection)
 	$req->closeCursor();
 }   
 
-$connection = connection();
+function insert_database($name_database, $connection){
+	$var = "`CREATE DATABASE`";
+	$Var = "$var $name_database";
+	try 
+	{
+	  $connection->exec($Var);
+      echo "Database created successfully<br>";
+	}
+	catch (PDOException $e)
+	{
+		echo "No Create";
+	}
 
-show_database($connection);
+//cree une base de donnée
+
+$name_database = "test2"; // nom de la base testé
+insert_database($name_database, $connection);
 
 ?>
