@@ -104,5 +104,28 @@ function nb_database($connection, $name_database)
 	return ($i);
 }
 
+function statistics_database($connection, $name_database)
+{
+	$i = 0;
+	$sql = "select data_length, CREATE_time from information_schema.tables where TABLE_SCHEMA='".$name_database."' group by TABLE_NAME";
+
+	try
+	{
+		$req = $connection->query($sql);
+		//echo "Database show table successfully";
+	}
+	catch (PDOException $e)
+	{
+		echo "statistics  database failed";
+	}
+	while ($row = $req->fetch())
+	{
+			//echo $row[0], '<br/>';
+			$tables["table".$i] = $row[0];
+			$i = $i + 1;
+	}
+	$req->closeCursor();
+	return ($tables);
+}
 
 ?>
