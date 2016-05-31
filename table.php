@@ -23,7 +23,7 @@ ini_set('display_errors', 1);
     //echo $db;
     $tables = show_table_database($login, $db);
     $table_stats = statistics_database($login, $db);
-    $fields = list_table($login, $table);
+    $fields = list_table($login,$db, $table);
     //$bases = show_database($login);
     var_dump($fields);
 
@@ -31,7 +31,7 @@ ini_set('display_errors', 1);
     $template = $twig->loadTemplate('tabledetail.twig');
     echo $template->render(array(
       'table_name' => $table,
-      'tables' => $table_stats,
+      'fields' => $fields,
       'basename' => $db,
 ));
 ?>

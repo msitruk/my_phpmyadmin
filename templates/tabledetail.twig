@@ -9,26 +9,28 @@
 {% endblock %}
 {% block content %}
     <h1>Détail de la table : {{ table_name }}</h1>
+    <div>
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">Structure de la table</a></li>
+        <li role="presentation"><a href="#">Données sur la table</a></li>
+      </ul>
+    </div>
     <p>Pour ajouter un nouveau champ dans la table {{ table_name }} cliquez sur le bouton suivant : <button type="button" id="new-field" class="btn btn-success">Créer une table !</button></p>
     <div class="alert alert-success" role="alert" id="update">Mise à jour de vos informations avec succès !</div>
     <table id="table_id">
       <thead>
-        <td>Nom de la table</td>
-        <td>Date de création</td>
-        <td>Taille</td>
-        <td>Editer la table</td>
-        <td>Vider la table</td>
-        <td>Supprimer la table</td>
+        <td>Nom du champ</td>
+        <td>Type de champ</td>
+        <td>Editer le champ</td>
+        <td>Supprimer le champ</td>
       </thead>
       <tbody id="tableBodyFIELD">
-      {% for table in tables %}
+      {% for field in fields %}
         <tr>
-          <td>{{ table.tableName }}</td>
-          <td>{{ table.tableDate }}</td>
-          <td>{{ table.tableLenght }}</td>
-          <td><button type="button" class="btn btn-info edit-table">Editer</button></td>
-          <td><button type="button" class="btn btn-info purge-table">Vider</button></td>
-          <td><button type="button" class="btn btn-warning del-table">Supprimer</button></td>
+          <td>{{ field.Name }}</td>
+          <td>{{ field.Type }}</td>
+          <td><button type="button" class="btn btn-info edit-field">Editer</button></td>
+          <td><button type="button" class="btn btn-warning del-field">Supprimer</button></td>
         </tr>
       {% endfor %}
     </tbody>
