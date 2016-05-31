@@ -4,15 +4,16 @@ require("connection.php");
 function list_table($connection, $table)
 {
 	$sql = "Select * from $table";
-	try
+	$req = $connection->query($sql);
+	$bases = array();
+	$i = 0;
+	while ($row = $req->fetch())
 	{
-		$req = $connection->query($sql);
-		echo"success ..";
+			$bases["base".$i] = $row[0];
+			$i = $i + 1;
 	}
-	catch (PDOException $e)
-	{
-		echo "statistics  database failed";
-	}
+	$req->closeCursor();
+	return ($bases);
 }
 
 function insert_into($connection, $table)
