@@ -14,6 +14,8 @@
     <table id="table_id">
       <thead>
         <td>Nom de la table</td>
+        <td>Date de création</td>
+        <td>Taille</td>
         <td>Editer la table</td>
         <td>Vider la table</td>
         <td>Supprimer la table</td>
@@ -21,7 +23,9 @@
       <tbody id="tableBodyTABLE">
       {% for table in tables %}
         <tr>
-          <td>{{ table }}</td>
+          <td>{{ table.tableName }}</td>
+          <td>{{ table.tableDate }}</td>
+          <td>{{ table.tableLenght }}</td>
           <td><button type="button" class="btn btn-info edit-table">Editer</button></td>
           <td><button type="button" class="btn btn-info purge-table">Vider</button></td>
           <td><button type="button" class="btn btn-warning del-table">Supprimer</button></td>

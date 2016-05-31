@@ -19,13 +19,14 @@ ini_set('display_errors', 1);
     $db = $_GET["db"];
     //echo $db;
     $tables = show_table_database($login, $db);
+    $table_stats = statistics_database($login, $db);
     //$bases = show_database($login);
-    //var_dump($tables);
+    //var_dump($table_stats);
 
 
     $template = $twig->loadTemplate('basedetail.twig');
     echo $template->render(array(
-      'tables' => $tables,
+      'tables' => $table_stats,
       'basename' => $db,
 ));
 ?>

@@ -106,9 +106,9 @@ function nb_database($connection, $name_database)
 
 function statistics_database($connection, $name_database)
 {
-	$i = 0;
-	$sql = "select data_length, CREATE_time from information_schema.tables where TABLE_SCHEMA='".$name_database."' group by TABLE_NAME";
-
+	$i = 1;
+	$sql = "select table_name, data_length, CREATE_time from information_schema.tables where TABLE_SCHEMA='".$name_database."'";
+	
 	try
 	{
 		$req = $connection->query($sql);
@@ -121,7 +121,9 @@ function statistics_database($connection, $name_database)
 	while ($row = $req->fetch())
 	{
 			//echo $row[0], '<br/>';
-			$tables["table".$i] = $row[0];
+			$tables[$i]["tableName"] = $row[0];
+			$tables[$i]["tableLenght"] = $row[1];
+			$tables[$i]["tableDate"] = $row[2];
 			$i = $i + 1;
 	}
 	$req->closeCursor();
