@@ -1,6 +1,6 @@
 {% extends "layout.twig" %}
 
-{% block title %}Bases{% endblock %}
+{% block title %}Detail de la base {{ basename }}{% endblock %}
 {% block head %}
   {{ parent() }}
   <style type="text/css">
@@ -8,21 +8,23 @@
   </style>
 {% endblock %}
 {% block content %}
-    <h1>Vos bases de données dans MySQL</h1>
-    <p>Pour ajouter une nouvelle base de données cliquez sur le bouton suivant : <button type="button" id="new-base" class="btn btn-success">Créer une base !</button></p>
+    <h1>Détail de la base de données : {{ basename }}</h1>
+    <p>Pour ajouter une nouvelle table dans {{ basename }} cliquez sur le bouton suivant : <button type="button" id="new-base" class="btn btn-success">Créer une table !</button></p>
     <div class="alert alert-success" role="alert" id="update">Mise à jour de vos informations avec succès !</div>
     <table id="table_id">
       <thead>
-        <td>Nom de la base</td>
-        <td>Editer la base</td>
-        <td>Supprimer la base</td>
+        <td>Nom de la table</td>
+        <td>Editer la table</td>
+        <td>Vider la table</td>
+        <td>Supprimer la table</td>
       </thead>
-      <tbody id="tableBodyBASE">
-      {% for base in bases %}
-        <tr><a href="#">Acceuil</a>
-          <td><a href="./base.php?db={{ base }}">{{ base }}</a></td>
-          <td><button type="button" class="btn btn-info edit-base">Editer</button></td>
-          <td><button type="button" class="btn btn-warning del-base">Supprimer</button></td>
+      <tbody id="tableBodyTABLE">
+      {% for table in tables %}
+        <tr>
+          <td>{{ table }}</td>
+          <td><button type="button" class="btn btn-info edit-table">Editer</button></td>
+          <td><button type="button" class="btn btn-info purge-table">Vider</button></td>
+          <td><button type="button" class="btn btn-warning del-table">Supprimer</button></td>
         </tr>
       {% endfor %}
     </tbody>
@@ -30,7 +32,7 @@
 
 
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="delModal">
+  <div class="modal fade" tabindex="-1" role="dialog" id="delTableModal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -48,14 +50,14 @@
     </div><!-- /.modal-dialog -->
   </div>
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="modifModal">
+  <div class="modal fade" tabindex="-1" role="dialog" id="modifTableModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Modifier les informations de mon ayants droits</h4>
       </div>
-      <div class="modal-body" id="modbody">
+      <div class="modal-body" id="modTablebody">
         <p>Merci de modifier les informations et de cliquer sur le bouton enregistrer pour que les modification soient effectives.</p>
         <form>
       </div>
@@ -63,14 +65,14 @@
   </div><!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="newModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="newTableModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Ajouter une nouvelle base de donnée</h4>
       </div>
-      <div class="modal-body" id="newbody">
+      <div class="modal-body" id="newtablebody">
         <p>Merci de remplir les informations et de cliquer sur le bouton enregistrer pour que les modification soient effectives.</p>
         <form>
       </div>

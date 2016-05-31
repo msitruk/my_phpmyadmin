@@ -60,17 +60,25 @@ function rename_database($connection, $new_name, $old_name)
 
 function show_table_database($connection, $name_database)
 {
-	$sql = "select table_name from information_schema.tables where TABLE_SCHEMA=$name_database";
+	$i = 0;
+	$sql = "select table_name from information_schema.tables where TABLE_SCHEMA='".$name_database."'";
 	try
 	{
 		$req = $connection->query($sql);
-		echo "Database show table successfully";
+		//echo "Database show table successfully";
 	}
 	catch (PDOException $e)
 	{
 		echo "Show table of database failed";
 	}
-
+	while ($row = $req->fetch())
+	{
+			//echo $row[0], '<br/>';
+			$tables["table".$i] = $row[0];
+			$i = $i + 1;
+	}
+	$req->closeCursor();
+	return ($tables);
 }
 
 // //create database
