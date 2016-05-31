@@ -58,6 +58,21 @@ function rename_database($connection, $new_name, $old_name)
 	}
 }
 
+function show_table_database($connection, $name_database)
+{
+	$sql = "select table_name from information_schema.tables where TABLE_SCHEMA=$name_database";
+	try
+	{
+		$req = $connection->query($sql);
+		echo "Database show table successfully";
+	}
+	catch (PDOException $e)
+	{
+		echo "Show table of database failed";
+	}
+
+}
+
 // //create database
 //
 // $name_database = "test2"; // nom de la base testé
