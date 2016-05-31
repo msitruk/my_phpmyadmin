@@ -1,5 +1,4 @@
 <?php
-require("connection.php");
 
 function list_table($connection, $table)
 {
@@ -16,10 +15,10 @@ function list_table($connection, $table)
 	return ($bases);
 }
 
-function delete_database($table, $connection){
-	
+function delete_table($table, $connection){
+
 	$sql = "DROP TABLE $table";
-	try 
+	try
 	{
 	  $connection->query($sql);
       echo "Database deleted successfully<br>";
@@ -52,4 +51,3 @@ function nb_column ($connection, $db,  $table)
 	echo $i;
 	return ($i);
 }
-
