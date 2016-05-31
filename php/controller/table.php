@@ -51,3 +51,18 @@ function nb_column ($connection, $db,  $table)
 	echo $i;
 	return ($i);
 }
+
+function show_table($base, $table)
+{
+	$sql ="SELECT * FROM $base".".$table";
+	$req = $connection->query($sql);
+	$bases = array();
+	$i = 0;
+	while ($row = $req->fetch())
+	{
+			$bases["base".$i] = $row[0];
+			$i = $i + 1;
+	}
+	$req->closeCursor();
+	return ($bases);
+}
