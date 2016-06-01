@@ -1,9 +1,9 @@
 <?php
 ini_set('display_errors', 1);
     include_once('php/twig/lib/Twig/Autoloader.php');
-    include_once('php/controller/connection.php');
-    include_once('php/controller/database.php');
-    include_once('php/controller/table.php');
+    include_once('php/models/connection.php');
+    include_once('php/models/database.php');
+    include_once('php/models/table.php');
 
 
     Twig_Autoloader::register();
@@ -24,14 +24,16 @@ ini_set('display_errors', 1);
     $tables = show_table_database($login, $db);
     $table_stats = statistics_database($login, $db);
     $fields = list_table($login,$db, $table);
+    $lignes = show_table($login, $db, $table);
     //$bases = show_database($login);
-    var_dump($fields);
+    //var_dump($lignes);
 
 
     $template = $twig->loadTemplate('tabledetail.twig');
     echo $template->render(array(
       'table_name' => $table,
       'fields' => $fields,
+      'lignes' => $lignes,
       'basename' => $db,
 ));
 ?>

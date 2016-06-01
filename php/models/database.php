@@ -17,11 +17,10 @@ function show_database($connection)
 }
 
 function insert_database($name_database, $connection){
-	$var = "`CREATE DATABASE`";
-	$Var = "$var $name_database";
+	$sql = "CREATE DATABASE ".$name_database;
 	try
 	{
-	  $connection->exec($Var);
+	  $connection->exec($sql);
       echo "Database created successfully<br>";
 	}
 	catch (PDOException $e)
@@ -108,7 +107,7 @@ function statistics_database($connection, $name_database)
 {
 	$i = 1;
 	$sql = "select table_name, data_length, CREATE_time from information_schema.tables where TABLE_SCHEMA='".$name_database."'";
-	
+
 	try
 	{
 		$req = $connection->query($sql);

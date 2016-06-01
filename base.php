@@ -1,8 +1,8 @@
 <?php
 ini_set('display_errors', 1);
     include_once('php/twig/lib/Twig/Autoloader.php');
-    include_once('php/controller/connection.php');
-    include_once('php/controller/database.php');
+    include_once('php/models/connection.php');
+    include_once('php/models/database.php');
 
     Twig_Autoloader::register();
 

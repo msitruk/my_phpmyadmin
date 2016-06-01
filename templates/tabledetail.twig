@@ -11,30 +11,58 @@
     <h1>Détail de la table : {{ table_name }}</h1>
     <div>
       <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#">Structure de la table</a></li>
-        <li role="presentation"><a href="#">Données sur la table</a></li>
+        <li role="presentation" class="active" id="dataMenu" onclick="data()"><a href="#">Données sur la table</a></li>
+        <li role="presentation" class="" id="structMenu" onclick="struct()"><a href="#">Structure de la table</a></li>
       </ul>
     </div>
-    <p>Pour ajouter un nouveau champ dans la table {{ table_name }} cliquez sur le bouton suivant : <button type="button" id="new-field" class="btn btn-success">Créer une table !</button></p>
+
     <div class="alert alert-success" role="alert" id="update">Mise à jour de vos informations avec succès !</div>
-    <table id="table_id">
-      <thead>
-        <td>Nom du champ</td>
-        <td>Type de champ</td>
-        <td>Editer le champ</td>
-        <td>Supprimer le champ</td>
-      </thead>
-      <tbody id="tableBodyFIELD">
-      {% for field in fields %}
-        <tr>
+
+    <div id="struct">
+      <p>Pour ajouter un nouveau champ dans la table {{ table_name }} cliquez sur le bouton suivant : <button type="button" id="new-field" class="btn btn-success">Créer une table !</button></p>
+      <table id="table_id">
+        <thead>
+          <td>Nom du champ</td>
+          <td>Type de champ</td>
+          <td>Editer le champ</td>
+          <td>Supprimer le champ</td>
+        </thead>
+        <tbody id="tableBodyFIELD">
+          {% for field in fields %}
+            <tr>
+              <td>{{ field.Name }}</td>
+              <td>{{ field.Type }}</td>
+              <td><button type="button" class="btn btn-info edit-field">Editer</button></td>
+              <td><button type="button" class="btn btn-warning del-field">Supprimer</button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div id="data">
+      <p>Pour ajouter une nouvelle ligne dans la table {{ table_name }} cliquez sur le bouton suivant : <button type="button" id="new-line" class="btn btn-success">Ajouter une ligne !</button></p>
+      <table id="table_id2">
+        <thead>
+          {% for field in fields %}
           <td>{{ field.Name }}</td>
-          <td>{{ field.Type }}</td>
-          <td><button type="button" class="btn btn-info edit-field">Editer</button></td>
-          <td><button type="button" class="btn btn-warning del-field">Supprimer</button></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+          {% endfor %}
+          <td>Editer la ligne</td>
+          <td>Supprimer la ligne/td>
+        </thead>
+        <tbody id="tableBodyDATA">
+          {% for ligne in lignes %}
+            <tr>
+              {% for ligneDetail in ligne %}
+              <td>{{ ligneDetail }}</td>
+              {% endfor %}
+              <td><button type="button" class="btn btn-info edit-data">Editer</button></td>
+              <td><button type="button" class="btn btn-warning del-data">Supprimer</button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
 
 
