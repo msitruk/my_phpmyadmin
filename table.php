@@ -26,7 +26,7 @@ ini_set('display_errors', 1);
     $fields = list_table($login,$db, $table);
     $lignes = show_table($login, $db, $table);
     //$bases = show_database($login);
-    //var_dump($lignes);
+    //var_dump($fields);
 
 
     $template = $twig->loadTemplate('tabledetail.twig');

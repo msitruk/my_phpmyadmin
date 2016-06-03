@@ -15,7 +15,6 @@ if(empty($_POST))
     $bases = show_database($login);
     //var_dump($bases);
 
-
     $template = $twig->loadTemplate('index.twig');
     echo $template->render(array('bases' => $bases, ));
 }

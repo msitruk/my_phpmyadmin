@@ -16,9 +16,9 @@ function list_table($connection,$base, $table)
 	return ($field);
 }
 
-function delete_table($table, $connection){
+function delete_table($table, $basename, $connection){
 
-	$sql = "DROP TABLE $table";
+	$sql = "DROP TABLE $basename.$table";
 	try
 	{
 	  $connection->query($sql);
