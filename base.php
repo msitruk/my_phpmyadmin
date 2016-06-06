@@ -17,17 +17,27 @@ if(empty($_POST))
 
   $db = $_GET["db"];
   //echo $db;
-  $tables = show_table_database($login, $db);
-  $table_stats = statistics_database($login, $db);
-  //$bases = show_database($login);
-  //var_dump($table_stats);
+  $nbtable = nb_database($login, $db);
+
+  if ($nbtable > 0)
+  {
+    $table_stats = statistics_database($login, $db);
+    $template = $twig->loadTemplate('basedetail.twig');
+    echo $template->render(array(
+      'tables' => $table_stats,
+      'basename' => $db,
+    ));
+  }
+  else
+  {
+    $template = $twig->loadTemplate('basedetail.twig');
+    echo $template->render(array(
+      //'tables' => $table_stats,
+      'basename' => $db,
+    ));
+  }
 
 
-  $template = $twig->loadTemplate('basedetail.twig');
-  echo $template->render(array(
-    'tables' => $table_stats,
-    'basename' => $db,
-));
 }
 if ($_POST)
 {
@@ -43,6 +53,10 @@ if ($_POST)
   else if ($_POST["action"] == "delete")
   {
      delete_table($_POST['tablename'], $_POST['basename'], $login);
+  }
+    else if ($_POST["action"] == "purge")
+  {
+     empty_table($login, $_POST['basename'], $_POST['tablename']);
   }
   // else if ($_POST["action"] == "edit")
   // {

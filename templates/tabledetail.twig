@@ -8,6 +8,63 @@
   </style>
 {% endblock %}
 {% block content %}
+
+    <p> <a href="index.php">Liste des bases</a> > <a href="base.php?db={{ basename }}" id="baseName">{{ basename }}</a> > <a href="table.php?db={{ basename }}&table={{ table_name }}" id="tableName">{{ table_name }}</a></p>
+
+
+    {# MODAL POUR EDITER UN CHAMPS #}
+    <div id="editFieldModal" style="display: none;">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close closeEditFieldModal" aria-hidden="true">&times;</button>
+               <h4 class="modal-title" id="myModalLabel">Edition d'un champs</h4>
+          </div>
+          <form method="post" id="editFieldForm">
+          <div class="modal-body" id="editFieldBody"><p>Merci de remplir les informations et de cliquer sur le bouton enregistrer pour que les modification soient effectives.</p></div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger closeEditFieldModal">Annuler</button>
+              <input type="submit" class="btn btn-success" id="confirmEditField" value="Save changes">
+              {# <button type="button" class="btn btn-success" id="saveNewTableDetail">Save changes</button> #}
+          </div>
+          </form>
+      </div>
+    </div>
+
+    {# MODALE POUR EDITER UNE DATE #}
+    <div id="editDatadModal" style="display: none;">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close closeEditDataModal" aria-hidden="true">&times;</button>
+               <h4 class="modal-title" id="myModalLabel">Edition d'une ligne de données</h4>
+          </div>
+          <form method="post" id="editDataForm">
+          <div class="modal-body" id="editDataBody">
+            <table id="table_id4">
+              <thead>
+                {% for field in fields %}
+                <td class="fieldName">{{ field.Name }}</td>
+                {% endfor %}
+              </thead>
+              <tbody id="tableBodyDATAedit">
+                {# {% for ligne in lignes %} #}
+                  <tr>
+                    {% for ligneDetail in lignes.0 %}
+                    <td>{{ ligneDetail }}</td>
+                    {% endfor %}
+                  </tr>
+                {# {% endfor %} #}
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger closeEditDataModal">Annuler</button>
+              <input type="submit" class="btn btn-success" id="confirmEditField" value="Save changes">
+              {# <button type="button" class="btn btn-success" id="saveNewTableDetail">Save changes</button> #}
+          </div>
+          </form>
+      </div>
+    </div>
+
     <h1>Détail de la table : {{ table_name }}</h1>
     <div>
       <ul class="nav nav-tabs">
@@ -19,7 +76,7 @@
     <div class="alert alert-success" role="alert" id="update">Mise à jour de vos informations avec succès !</div>
 
     <div id="struct">
-      <p>Pour ajouter un nouveau champ dans la table {{ table_name }} cliquez sur le bouton suivant : <button type="button" id="new-field" class="btn btn-success">Créer une table !</button></p>
+      <p>Pour ajouter un nouveau champ dans la table {{ table_name }} cliquez sur le bouton suivant : <button type="button" id="new-field" class="btn btn-success">Ajouter un champs !</button></p>
       <table id="table_id">
         <thead>
           <td>Nom du champ</td>
@@ -45,16 +102,16 @@
       <table id="table_id2">
         <thead>
           {% for field in fields %}
-          <td>{{ field.Name }}</td>
+          <td class="fieldName">{{ field.Name }}</td>
           {% endfor %}
           <td>Editer la ligne</td>
-          <td>Supprimer la ligne/td>
+          <td>Supprimer la ligne</td>
         </thead>
         <tbody id="tableBodyDATA">
           {% for ligne in lignes %}
             <tr>
               {% for ligneDetail in ligne %}
-              <td>{{ ligneDetail }}</td>
+              <td class="dataValue">{{ ligneDetail }}</td>
               {% endfor %}
               <td><button type="button" class="btn btn-info edit-data">Editer</button></td>
               <td><button type="button" class="btn btn-warning del-data">Supprimer</button></td>
@@ -64,54 +121,25 @@
       </table>
     </div>
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="delFieldModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Confirmer la suppression</h4>
+          </div>
+          <div class="modal-body">
+            <p>Etes vous sur de vouloir supprimmer cette base de données ?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+            <button type="button" class="btn btn-success" id="deleteField-oui">Supprimer</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
 
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="delFieldModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Confirmer la suppression</h4>
-        </div>
-        <div class="modal-body">
-          <p>Etes vous sur de vouloir supprimmer cette base de données ?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-success" id="delete-oui">Supprimer</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div>
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="modifFieldModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modifier les informations de mon ayants droits</h4>
-      </div>
-      <div class="modal-body" id="modTablebody">
-        <p>Merci de modifier les informations et de cliquer sur le bouton enregistrer pour que les modification soient effectives.</p>
-        <form>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="newFieldModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Ajouter une nouvelle base de donnée</h4>
-      </div>
-      <div class="modal-body" id="newfieldbody">
-        <p>Merci de remplir les informations et de cliquer sur le bouton enregistrer pour que les modification soient effectives.</p>
-        <form>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
 
 {% endblock %}

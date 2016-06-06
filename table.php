@@ -1,23 +1,27 @@
 <?php
 ini_set('display_errors', 1);
-    include_once('php/twig/lib/Twig/Autoloader.php');
-    include_once('php/models/connection.php');
-    include_once('php/models/database.php');
-    include_once('php/models/table.php');
+include_once('php/twig/lib/Twig/Autoloader.php');
+include_once('php/models/connection.php');
+include_once('php/models/database.php');
+include_once('php/models/table.php');
+include_once('php/models/table_db.php');
 
 
+
+
+$login =  connection();
+
+
+
+
+
+if(empty($_POST))
+{
     Twig_Autoloader::register();
-
     $loader = new Twig_Loader_Filesystem('templates'); // Dossier contenant les templates
     $twig = new Twig_Environment($loader, array(
-      'cache' => false
+    'cache' => false
     ));
-
-
-
-    $login =  connection();
-
-
     $db = $_GET["db"];
     $table = $_GET["table"];
     //echo $db;
@@ -36,4 +40,22 @@ ini_set('display_errors', 1);
       'lignes' => $lignes,
       'basename' => $db,
 ));
+}
+else if ($_POST)
+{
+    if ($_POST["action"] == "editField")
+    {
+     //add_table($login, $_POST['basename'], $_POST['tablename'], $_POST['bigtab']);
+    //var_dump($_POST['newdata']);
+     edit_element($login, $_POST['basename'], $_POST['tablename'], $_POST['fieldname'], $_POST['newdata']);
+    }
+    else if ($_POST["action"] == "deleteField")
+    {
+        delete_element($login, $_POST['basename'], $_POST['tablename'], $_POST['fieldname']);
+    }
+    else if ($_POST["action"] == "newField")
+    {
+        add_element($login, $_POST['basename'], $_POST['tablename'], $_POST['newdata']);
+    }
+}
 ?>

@@ -75,33 +75,33 @@ function show_table($connection, $base, $table)
 	return ($lignes);
 }
 
-/*crée la requete d'insertion
-*le $table est le tableau que tu récupéras depuis ton formulaire
-*/
-function insert_table($connection, $db, $table)
-{
-    $column = nb_column($connection, $db, $table);
-    $array_column = list_column($connection, $table);
-    $sql = "INSERT INTO $table VALUES (' ";
-    $str = implode("','",$array_column);
-    $sql = $sql.$str."')";
-    return ($sql);
-}
+// /*crée la requete d'insertion
+// *le $table est le tableau que tu récupéras depuis ton formulaire
+// */
+// function insert_table($connection, $db, $table)
+// {
+//     $column = nb_column($connection, $db, $table);
+//     $array_column = list_column($connection, $table);
+//     $sql = "INSERT INTO $table VALUES (' ";
+//     $str = implode("','",$array_column);
+//     $sql = $sql.$str."')";
+//     return ($sql);
+// }
 
-//liste les colonnes que tu peux récuperer dans ton front
-function list_column($connection, $table)
-{
-    //lister les colonnes
-    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"."$table"."' ";
-    $req = $connection->query($sql);
-    $bases = array();
-    $i = 0;
-    // $row = $req->fetchAll();
-    while ($row = $req->fetch())
-    {
-            //echo $row[0], '<br/>';
-            $bases["base".$i] = $row[0];
-            $i = $i + 1;
-    }
-    return($bases);
-}
+// //liste les colonnes que tu peux récuperer dans ton front
+// function list_column($connection, $table)
+// {
+//     //lister les colonnes
+//     $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"."$table"."' ";
+//     $req = $connection->query($sql);
+//     $bases = array();
+//     $i = 0;
+//     // $row = $req->fetchAll();
+//     while ($row = $req->fetch())
+//     {
+//             //echo $row[0], '<br/>';
+//             $bases["base".$i] = $row[0];
+//             $i = $i + 1;
+//     }
+//     return($bases);
+// }

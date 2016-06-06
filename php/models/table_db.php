@@ -89,7 +89,7 @@ function test_PrimaryKey ($array)
 
 function empty_table($connection, $name_database, $name_table)
 {
-    $sql = "TRUNCATE TABLE $name_databa se.$name_table";
+    $sql = "TRUNCATE TABLE $name_database.$name_table";
     try{
         $req = $connection->query($sql);
         echo ("Sucess ");
@@ -97,5 +97,114 @@ function empty_table($connection, $name_database, $name_table)
     catch (PDOException $e)
     {
         echo "Failed ...";
+    }
+}
+
+function edit_element($connection, $name_database, $name_table, $name_element, $array)
+{
+    $nb_array = count($array);
+    $sql = "ALTER TABLE $name_database.$name_table CHANGE $name_element ";
+
+    for ($i = 0; $i < $nb_array; $i++)
+    {
+        if ($i != ($nb_array - 1))
+        {
+            $sql = $sql.$array[$i]." ";
+        }
+        else
+        {
+            $sql = $sql.$array[$i];
+        }
+    }
+    echo $sql."</br>";
+    try
+    {
+        $req = $connection->query($sql);
+        echo"success ..";
+    }
+    catch (PDOException $e)
+    {
+        echo "Alter table failed";
+    }
+}
+
+function add_element($connection, $db, $table, $array)
+{
+    $sql = "ALTER TABLE $db.$table ADD ";
+    $array = array_filter($array);
+    $array =  array_values($array);
+    //var_dump($array);
+    $nb_array = count($array);
+    $i = 0;
+    while ( $i < $nb_array)
+    {
+        if ($array[0] <> true)
+        {
+            $sql = $sql." ' ".$array[0]." ' ";
+        }
+        else
+        {
+            $sql = $sql.$array[$i]." ";
+        }
+        $i = $i + 1;
+    }
+    echo $sql ;
+    try
+    {
+        $req = $connection->query($sql);
+        echo "Insertion sucess";
+    }
+    catch (PDOException $e)
+    {
+        echo "Insertion failed";
+    }
+}
+
+function list_column($connection, $table)
+{
+    //lister les colonnes
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"."$table"."' ";
+    $req = $connection->query($sql);
+    $bases = array();
+    $i = 0;
+    // $row = $req->fetchAll();
+    while ($row = $req->fetch())
+    {
+            //echo $row[0], '<br/>';
+            $bases["base".$i] = $row[0];
+            $i = $i + 1;
+    }
+    return($bases);
+}
+
+
+function add_data($connection, $db, $table, $array)
+{
+    $sql = "Insert into $db.$table values (";
+    $nb_array = count($array);
+    $i = 0;
+    while ( $i < ($nb_array - 1))
+    {
+        if ($array[0] <> true)
+        {
+            $sql = $sql." ' NULL ' , ";
+        }
+        else
+        {
+            $sql = $sql."'".$array[$i]." ' , ";
+        }
+        $i = $i + 1;
+    }
+    $end_array = end($array);
+    $sql = $sql."'".$end_array."')";
+    echo $sql ;
+    try
+    {
+        $req = $connection->query($sql);
+        echo "Insertion sucess";
+    }
+    catch (PDOException $e)
+    {
+        echo "Insertion failed";
     }
 }

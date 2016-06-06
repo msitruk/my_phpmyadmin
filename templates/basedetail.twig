@@ -9,6 +9,9 @@
 {% endblock %}
 {% block content %}
 
+  <p> <a href="index.php">Liste des bases</a> > {{ basename }} </p>
+
+
   <div id="newTableDetail" style="display: none;">
   <div class="modal-content">
       <div class="modal-header">
@@ -38,21 +41,21 @@
         <td>Nom de la table</td>
         <td>Date de création</td>
         <td>Taille</td>
-        <td>Editer la table</td>
         <td>Vider la table</td>
         <td>Supprimer la table</td>
       </thead>
       <tbody id="tableBodyTABLE">
+      {% if tables %}
       {% for table in tables %}
         <tr>
           <td><a href="./table.php?db={{ basename }}&table={{ table.tableName }}">{{ table.tableName }}</a></td>
           <td>{{ table.tableDate }}</td>
-          <td>{{ table.tableLenght }}</td>
-          <td><button type="button" class="btn btn-info edit-table">Editer</button></td>
-          <td><button type="button" class="btn btn-info purge-table">Vider</button></td>
+          <td class="sizeTd">{{ table.tableLenght }}</td>
+          <td><button type="button" class="btn btn-info viderTable">Vider</button></td>
           <td><button type="button" class="btn btn-warning dropTable">Supprimer</button></td>
         </tr>
       {% endfor %}
+      {% endif %}
     </tbody>
   </table>
 
@@ -138,6 +141,24 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
         <button type="button" class="btn btn-success" id="delete-oui">Supprimer</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="purgeModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirmer la suppression</h4>
+      </div>
+      <div class="modal-body">
+        <p>Etes vous sur de vouloir vider cette table ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-success" id="purge-oui">Vider la table !</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
