@@ -43,18 +43,40 @@ function delete_database($name_database, $connection){
 	}
 }
 
-function rename_database($connection, $new_name, $old_name)
+function rename_database($new_name, $old_name)
 {
-	$sql = "CREATE DATABASE IF NOT EXISTS $new_name default CHARACTER set utf8 COLLATE utf8_general_ci; DROP DATABASE $old_name";
-	try
-	{
-		$req = $connection->query($sql);
-		echo "Database rename successfully";
-	}
-	catch (PDOException $e)
-	{
-		echo "rename database failed";
-	}
+
+    $connection = new PDO('mysql:host=localhost;dbname=$old_name', 'root', '');
+    $sql = "CREATE DATABASE $new_name; ";
+    $req = $connection->query($sql);
+    //echo "Database rename successfully";
+    $nb_db = nb_database($connection, $old_name);
+    echo $nb_db;
+    $i = 0;
+    $sql2 =  "RENAME TABLE ";
+
+    $connection->query($sql);
+
+    $listdb = list_table_database($connection, $old_name);
+    //var_dump($listdb);
+    while ($i < ($nb_db - 1))
+    {
+        $sql2 = $sql2."$old_name.".$listdb['table'.$i]." TO $new_name.".$listdb['table'.$i]. " , ";
+        $i = $i + 1;
+    }
+    $end = end($listdb);
+    $sql2 = $sql2 .$end." TO $new_name.".$listdb['table'.$i].";";
+    //$sql = $sql.$sql2;
+    echo $sql2;
+     try
+    {
+        $connection->query($sql2);
+        // echo "Database show table successfully";
+    }
+    catch (PDOException $e)
+    {
+        echo "Failed";
+    }
 }
 
 function show_table_database($connection, $name_database)
