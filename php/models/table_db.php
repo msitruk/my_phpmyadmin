@@ -204,11 +204,7 @@ function search_primary($login, $db, $table)
     {
       $return = $primary["COLUMN_NAME"];
     }
-<<<<<<< HEAD
-        return ($return);
-=======
   return ($return);
->>>>>>> 1981b38cf9af548acffd190b94f7285d8ab5f370
 }
 
 function add_primaryKey($connection, $db, $table, $data)
