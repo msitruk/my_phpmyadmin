@@ -6,62 +6,47 @@ include_once('php/models/database.php');
 include_once('php/models/table.php');
 include_once('php/models/table_db.php');
 
-
-
-
 $login =  connection();
-
-
-
-
-
-if(empty($_POST))
-{
+if (empty($_POST))
+  {
     Twig_Autoloader::register();
     $loader = new Twig_Loader_Filesystem('templates'); // Dossier contenant les templates
     $twig = new Twig_Environment($loader, array(
-    'cache' => false
-    ));
+						'cache' => false
+						));
     $db = $_GET["db"];
     $table = $_GET["table"];
-    //echo $db;
     $tables = show_table_database($login, $db);
     $table_stats = statistics_database($login, $db);
     $fields = list_table($login,$db, $table);
     $lignes = show_table($login, $db, $table);
     $primary = search_primary($login, $db, $table);
-    //$bases = show_database($login);
-    //var_dump($fields);
-
-
     $template = $twig->loadTemplate('tabledetail.twig');
     echo $template->render(array(
-      'table_name' => $table,
-      'fields' => $fields,
-      'lignes' => $lignes,
-      'basename' => $db,
-      'primary' => $primary,
-));
-}
+				 'table_name' => $table,
+				 'fields' => $fields,
+				 'lignes' => $lignes,
+				 'basename' => $db,
+				 'primary' => $primary,
+				 ));
+  }
 else if ($_POST)
-{
+  {
     if ($_POST["action"] == "editField")
-    {
-     //add_table($login, $_POST['basename'], $_POST['tablename'], $_POST['bigtab']);
-    //var_dump($_POST['newdata']);
-     edit_element($login, $_POST['basename'], $_POST['tablename'], $_POST['fieldname'], $_POST['newdata']);
-    }
+      {
+	edit_element($login, $_POST['basename'], $_POST['tablename'], $_POST['fieldname'], $_POST['newdata']);
+      }
     else if ($_POST["action"] == "deleteField")
-    {
+      {
         delete_element($login, $_POST['basename'], $_POST['tablename'], $_POST['fieldname']);
-    }
+      }
     else if ($_POST["action"] == "newField")
-    {
-        add_element($login, $_POST['basename'], $_POST['tablename'], $_POST['newdata']);
-    }
+      {
+	add_element($login, $_POST['basename'], $_POST['tablename'], $_POST['newdata']);
+      }
     else if ($_POST["action"] == "newPrimary")
-    {
+      {
         add_primaryKey($login, $_POST['basename'], $_POST['tablename'], $_POST['newPrimary']);
-    }
-}
+      }
+  }
 ?>
