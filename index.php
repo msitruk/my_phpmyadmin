@@ -31,7 +31,7 @@ if ($_POST)
   }
   else if ($_POST["action"] == "edit")
   {
-    rename_database($login, $_POST["newbasename"], $_POST["basename"]);
+    rename_database($_POST["newbasename"], $_POST["basename"]);
   }
 }
 ?>

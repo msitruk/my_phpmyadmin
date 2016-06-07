@@ -515,8 +515,14 @@ $('table').on('click', '.edit-data', function(){
  	var ligne2 = $(this).closest('tr').clone().find("td");
   	var basename = document.getElementById('baseName').innerHTML;
   	var tablename = document.getElementById('tableName').innerHTML;
-
     var div = document.getElementById('editDatadModal');
+    var j = ligne2.length;
+    var i = 0;
+	while (i != j-2)
+	{
+		$('#tableBodyDATAedit').append('<td>'+ligne2.eq(i).text()+'</td>');
+		i = i + 1;
+	}
 	div.style.display = "block";
 	$('#editDataForm').submit(function (e){
 		e.preventDefault();

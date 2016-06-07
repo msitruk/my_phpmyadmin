@@ -43,15 +43,39 @@ function delete_database($name_database, $connection){
 	}
 }
 
+function list_table_database($connection, $name_database)
+{
+    $i = 0;
+    $sql = "select table_name from information_schema.tables where TABLE_SCHEMA='".$name_database."'";
+    $tables = array();
+    try
+    {
+        $req = $connection->query($sql);
+        //echo "Database show table successfully";
+    }
+    catch (PDOException $e)
+    {
+        echo "Show table of database failed";
+    }
+    while ($row = $req->fetch())
+    {
+            //echo $row[0], '<br/>';
+            $tables["table".$i] = $row[0];
+            $i = $i + 1;
+    }
+    $req->closeCursor();
+    return ($tables);
+}
+
 function rename_database($new_name, $old_name)
 {
 
-    $connection = new PDO('mysql:host=localhost;dbname=$old_name', 'root', '');
+    $connection = new PDO('mysql:host=localhost;dbname='.$old_name.'', 'root', 'pf69ppyo');
     $sql = "CREATE DATABASE $new_name; ";
     $req = $connection->query($sql);
     //echo "Database rename successfully";
     $nb_db = nb_database($connection, $old_name);
-    echo $nb_db;
+    //echo $nb_db;
     $i = 0;
     $sql2 =  "RENAME TABLE ";
 
@@ -65,13 +89,14 @@ function rename_database($new_name, $old_name)
         $i = $i + 1;
     }
     $end = end($listdb);
-    $sql2 = $sql2 .$end." TO $new_name.".$listdb['table'.$i].";";
+    $sql2 = $sql2 .$end." TO $new_name.".$listdb['table'.$i]."; DROP DATABASE ".$old_name.";";
     //$sql = $sql.$sql2;
-    echo $sql2;
+    //echo $sql2;
      try
     {
         $connection->query($sql2);
-        // echo "Database show table successfully";
+
+        echo "Database show table successfully";
     }
     catch (PDOException $e)
     {

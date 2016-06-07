@@ -208,3 +208,84 @@ function add_data($connection, $db, $table, $array)
         echo "Insertion failed";
     }
 }
+
+function search_primary($login, $db, $table)
+{
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA='$db' AND CONSTRAINT_NAME='PRIMARY' AND TABLE_NAME='$table'";
+    $req = $login->query($sql);
+    while ($primary = $req->fetch())
+    {
+        $return = $primary["COLUMN_NAME"];
+    }
+    return ($return);
+}
+
+function add_primaryKey($connection, $db, $table, $data)
+{
+    $search = search_primary($connection, $db, $table);
+    var_dump($search);
+    if (is_null($search)){
+            $sql ="ALTER TABLE $db.$table ADD PRIMARY KEY(`$data`)";
+
+            $sth = $connection->prepare($sql);
+            $sth->execute();
+            $return = array();
+            if (!$sth->execute())
+            {
+               $return = ($sth->errorInfo());
+               return ($return[2]);
+            }
+            else
+            {
+                $result = $sth->fetch();
+                return ("Sucess regarde dans ta table");
+            }
+    }
+    else
+    {
+        //echo "est entrée ici";
+         $sql ="ALTER TABLE $db.$table DROP PRIMARY KEY, ADD PRIMARY KEY(`$data`)";
+
+            $sth = $connection->prepare($sql);
+            $sth->execute();
+            $return = array();
+            if (!$sth->execute())
+            {
+               $return = ($sth->errorInfo());
+               return ($return[2]);
+            }
+            else
+            {
+                $result = $sth->fetch();
+                return ("sucess vérifie dans ta table");
+            }
+    }
+}
+function edit_data($connection, $name_database, $name_table, $array, $id_data)
+{
+    $nb_array = count($array);
+    $nb_cl = list_column($connection, $name_table);
+    $sql = "UPDATE $name_database.$name_table SET ";
+
+    for ($i = 0; $i < ($nb_array - 1); $i++)
+    {
+        if ($i != $nb_array)
+        {
+            $sql = $sql.$nb_cl["base".$i]." = '".$array[$i]."' , ";
+        }
+    }
+
+    $end = end($array);
+    $sql= $sql.$nb_cl["base".$i]." = '".$end."' ";
+
+    echo $sql = $sql."WHERE $name_table.id = $id_data";
+    try
+    {
+        $req = $connection->query($sql);
+        echo"success ..";
+    }
+    catch (PDOException $e)
+    {
+        echo "edit data failed";
+    }
+}

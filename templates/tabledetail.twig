@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    {# MODALE POUR EDITER UNE DATE #}
+    {# MODALE POUR EDITER UNE DATA #}
     <div id="editDatadModal" style="display: none;">
       <div class="modal-content">
           <div class="modal-header">
@@ -39,7 +39,7 @@
           </div>
           <form method="post" id="editDataForm">
           <div class="modal-body" id="editDataBody">
-            <table id="table_id4">
+            <table class="table">
               <thead>
                 {% for field in fields %}
                 <td class="fieldName">{{ field.Name }}</td>
@@ -47,10 +47,7 @@
               </thead>
               <tbody id="tableBodyDATAedit">
                 {# {% for ligne in lignes %} #}
-                  <tr>
-                    {% for ligneDetail in lignes.0 %}
-                    <td>{{ ligneDetail }}</td>
-                    {% endfor %}
+                  <tr id="tableBodyDATAedit">
                   </tr>
                 {# {% endfor %} #}
               </tbody>
@@ -81,14 +78,16 @@
         <thead>
           <td>Nom du champ</td>
           <td>Type de champ</td>
+          <td>Clé primaire</td>
           <td>Editer le champ</td>
           <td>Supprimer le champ</td>
         </thead>
         <tbody id="tableBodyFIELD">
           {% for field in fields %}
             <tr>
-              <td>{{ field.Name }}</td>
+              <td>{{ field.Name }} {% if field.Name == primary %}<img src="./web/img/key.png">{% endif %}</td>
               <td>{{ field.Type }}</td>
+              <td>{% if field.Name != primary %}<img src="./web/img/key.png">{% else %}<img src="./web/img/key2.png">{% endif %}</td>
               <td><button type="button" class="btn btn-info edit-field">Editer</button></td>
               <td><button type="button" class="btn btn-warning del-field">Supprimer</button></td>
             </tr>

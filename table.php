@@ -29,6 +29,7 @@ if(empty($_POST))
     $table_stats = statistics_database($login, $db);
     $fields = list_table($login,$db, $table);
     $lignes = show_table($login, $db, $table);
+    $primary = search_primary($login, $db, $table);
     //$bases = show_database($login);
     //var_dump($fields);
 
@@ -39,6 +40,7 @@ if(empty($_POST))
       'fields' => $fields,
       'lignes' => $lignes,
       'basename' => $db,
+      'primary' => $primary,
 ));
 }
 else if ($_POST)
@@ -56,6 +58,10 @@ else if ($_POST)
     else if ($_POST["action"] == "newField")
     {
         add_element($login, $_POST['basename'], $_POST['tablename'], $_POST['newdata']);
+    }
+    else if ($_POST["action"] == "newPrimary")
+    {
+        add_primaryKey($login, $_POST['basename'], $_POST['tablename'], $_POST['newPrimary']);
     }
 }
 ?>
