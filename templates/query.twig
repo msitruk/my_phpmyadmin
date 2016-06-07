@@ -1,0 +1,27 @@
+{% extends "layout.twig" %}
+
+{% block title %}Detail de la table {{ table_name }}{% endblock %}
+{% block head %}
+  {{ parent() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+
+  <h1>Requête libre en SQL !</h1>
+
+  <p>
+    <form action="demo_form.asp" id="queryForm" class="form">
+      <div class="form-group">
+        <textarea name="comment" form="queryForm" class="form-control">Tapez votre requête ici ! puis cliquez sur le bouton "Envoyer !"</textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-success" id="freeQuerryButton">Envoyer !</button>
+      </div>
+    </form>
+  </p>
+  <div class="well" id="freeQuerryResult" style="display: none;">
+  </div>
+
+{% endblock %}
