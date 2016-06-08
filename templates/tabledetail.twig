@@ -105,9 +105,10 @@
           {% endfor %}
           <td>Editer la ligne</td>
           <td>Supprimer la ligne</td>
+          <td>
         </thead>
         <tbody id="tableBodyDATA">
-          {% for ligne in lignes %}
+          {% for ligne in lignes and field in fields %}
             <tr>
               {% for ligneDetail in ligne %}
               <td class="dataValue">{{ ligneDetail }}</td>

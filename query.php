@@ -19,8 +19,21 @@ if(empty($_POST))
 	// 'basename' => $db,
 	));
 }
-else if ($_POST["action"] == "freeQuery")
+else if ($_POST["sql"])
 {
-	free_request($login, $_POST["sql"]);
+	$retour = free_request($login, $_POST["sql"]);
+
+	//$retour =  array_values($retour);
+	//var_dump($retour);
+	Twig_Autoloader::register();
+	$loader = new Twig_Loader_Filesystem('templates'); // Dossier contenant les templates
+	$twig = new Twig_Environment($loader, array(
+	'cache' => false
+	));
+	$template = $twig->loadTemplate('query.twig');
+	echo $template->render(array(
+	'results' => $retour,
+	// 'basename' => $db,
+	));
 }
 ?>

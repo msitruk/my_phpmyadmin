@@ -1,7 +1,7 @@
 <?php
 function list_table($connection, $base, $table)
 {
-  $sql = "select column_name, column_type from information_schema.columns where table_schema = '$base' and table_name= '$table'";
+  $sql = "select column_name, column_type, DATA_TYPE from information_schema.columns where table_schema = '$base' and table_name= '$table'";
   $req = $connection->query($sql);
   $field = array();
   $i = 0;
@@ -9,6 +9,7 @@ function list_table($connection, $base, $table)
     {
       $field[$i]["Name"] = $row[0];
       $field[$i]["Type"] = $row[1];
+      $field[$i]["typename"] = $row[2];
       $i = $i + 1;
     }
   $req->closeCursor();
@@ -16,7 +17,7 @@ function list_table($connection, $base, $table)
 }
 
 function delete_table($table, $basename, $connection)
-{  
+{
   $sql = "DROP TABLE $basename.$table";
   try
     {

@@ -29,7 +29,7 @@ function insert_database($name_database, $connection)
 }
 
 function delete_database($name_database, $connection)
-{  
+{
   $sql = "DROP DATABASE $name_database";
   try
     {
@@ -66,7 +66,7 @@ function list_table_database($connection, $name_database)
 
 function rename_database($new_name, $old_name)
 {
-  $connection = new PDO('mysql:host=localhost;dbname='.$old_name.'', 'root', 'pf69ppyo');
+  $connection = new PDO('mysql:host=localhost;dbname='.$old_name.'', 'root', '');
   $sql = "CREATE DATABASE $new_name; ";
   $req = $connection->query($sql);
   $nb_db = nb_database($connection, $old_name);
@@ -137,7 +137,7 @@ function statistics_database($connection, $name_database)
 {
   $i = 1;
   $sql = "select table_name, data_length, CREATE_time from information_schema.tables where TABLE_SCHEMA='".$name_database."'";
-  
+
   try
     {
       $req = $connection->query($sql);

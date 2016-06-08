@@ -1,12 +1,13 @@
 <?php
 function free_request($connection, $request)
-    $sth = $link->prepare($request);
-    $sth->execute();
+{
+    $sth = $connection->prepare($request);
+    $test = $sth->execute();
     $return = array();
-       if (!$sth->execute())
-       {
-         $return = ($sth->errorInfo());
-       }
+       if ($test == FALSE)
+   {
+     $return = ($sth->errorInfo());
+   }
    else
    {
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
