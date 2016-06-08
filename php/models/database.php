@@ -66,14 +66,16 @@ function list_table_database($connection, $name_database)
 
 function rename_database($new_name, $old_name)
 {
-  $connection = new PDO('mysql:host=localhost;dbname='.$old_name.'', 'root', '');
+  $connection = new PDO('mysql:host=localhost;dbname='.$old_name.'', 'root', 'root');
   $sql = "CREATE DATABASE $new_name; ";
   $req = $connection->query($sql);
   $nb_db = nb_database($connection, $old_name);
   $i = 0;
-  $sql2 =  "RENAME TABLE ";
   $connection->query($sql);
   $listdb = list_table_database($connection, $old_name);
+  if (!empty($listdb))
+{
+ $sql2 =  "RENAME TABLE ";
   while ($i < ($nb_db - 1))
     {
       $sql2 = $sql2."$old_name.".$listdb['table'.$i]." TO $new_name.".$listdb['table'.$i]. " , ";
@@ -81,7 +83,14 @@ function rename_database($new_name, $old_name)
     }
   $end = end($listdb);
   $sql2 = $sql2 .$end." TO $new_name.".$listdb['table'.$i]."; DROP DATABASE ".$old_name.";";
-  try
+ 
+}
+else
+{
+ $sql2 = "DROP DATABASE ".$old_name.";"; 
+}
+
+ try
     {
       $connection->query($sql2);
     }
